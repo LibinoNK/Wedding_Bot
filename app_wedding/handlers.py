@@ -8,6 +8,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from aiogram.utils.formatting import Bold
 
 import app_wedding.keyboards as kb
+from app_wedding.database.orm_query import orm_add_user
+from app_wedding.kbds.inline import MenuCallBack
 from app_wedding.menu_processing import get_menu_content
 
 router = Router()
@@ -26,8 +28,20 @@ async def start_cmd(message: types.Message, session: AsyncSession):
     await message.answer_photo(media.media, caption=media.caption, reply_markup=reply_markup)
 
 
-
 """ Первый уровень квиза - выбор сезона """
+
+
+@router.callback_query(MenuCallBack.filter())
+async def user_menu(callback: types.CallbackQuery, callback_data: MenuCallBack, session: AsyncSession):
+
+    media, reply_markup = await get_menu_content(
+        session,
+        level=callback_data.level,
+        menu_name=callback_data.menu_name,
+    )
+
+    await callback.message.edit_media(media=media, reply_markup=reply_markup)
+    await callback.answer()
 
 
 @router.callback_query(F.data == 'quiz')

@@ -39,6 +39,7 @@ class AddBanner(StatesGroup):
 @admin_router.message(StateFilter(None), F.text == 'Добавить/Изменить баннер')
 async def add_image2(message: types.Message, state: FSMContext, session: AsyncSession):
     pages_names = [page.name for page in await orm_get_info_pages(session)]
+    # pages_names = ["main", "about_b", "about", 'season', 'amount', 'place', 'style', 'colors', 'fashion', 'costume', 'end']
     await message.answer(f"Отправьте фото баннера.\nВ описании укажите для какой страницы:\
                          \n{', '.join(pages_names)}")
     await state.set_state(AddBanner.image)

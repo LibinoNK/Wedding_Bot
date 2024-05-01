@@ -38,12 +38,21 @@ class Image(Base):
     description: Mapped[str] = mapped_column(Text)
 
 
-# class User(Base):
-#     __tablename__ = 'user'
-#
-#     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-#     user_id: Mapped[int] = mapped_column(unique=True)
-#     first_name: Mapped[str] = mapped_column(String(150), nullable=True)
+class User(Base):
+    __tablename__ = 'user'
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    user_id: Mapped[int] = mapped_column(unique=True)
+    first_name: Mapped[str] = mapped_column(String(150), nullable=True)
+
+
+class Season(Base):
+    __tablename__ = 'season'
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(String(15), unique=True)
+    image: Mapped[str] = mapped_column(String(150), nullable=True)
+    description: Mapped[str] = mapped_column(Text, nullable=True)
 #
 #
 # class Quiz_user(Base):
